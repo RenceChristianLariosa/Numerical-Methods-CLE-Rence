@@ -23,13 +23,15 @@ public class Main {
         frame.secant.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                SecantDialog dialog = new SecantDialog(frame);
+                dialog.setVisible(true);
             }
         });
         frame.newton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                NewtonDialog dialog = new NewtonDialog(frame);
+                dialog.setVisible(true);
             }
         });
         frame.gaussJacobi.addActionListener(new ActionListener() {
