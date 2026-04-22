@@ -1,11 +1,11 @@
 public class SimpsonIteration {
     int index;
-    String label;     // x0, x1, x2, ...
+    String label;
     double x;
     double fx;
-    int mod;          // index mod 2 (1/3 rule) or mod 3 (3/8 rule)
-    int simpsonRule;  // multiplier: 1, 2, or 4
-    double fxi;       // simpsonRule * f(x)
+    int mod;
+    int simpsonRule;
+    double fxi;
 
     public SimpsonIteration(int index, String label, double x, double fx, int mod, int simpsonRule, double fxi) {
         this.index       = index;

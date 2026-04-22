@@ -9,18 +9,12 @@ public class SimpsonDialog extends JDialog {
     public JTable resultTable;
     public SimpsonTable tableModel;
     public JButton solveButton, clearButton;
-
     private JLabel lblN, lblA, lblB, lblH;
     private JLabel lblSumFxi, lblIntegral;
-
-    // Dynamic UI labels that change when the rule is switched
     private JLabel titleLabel, formulaLabel, nNoteLabel, integralKeyLabel;
     private JScrollPane scrollPane;
-
-    // Rule selection
     private JRadioButton radio13, radio38;
 
-    // Colors for each rule
     private static final Color COLOR_13_HEADER = new Color(0, 120, 80);
     private static final Color COLOR_13_ACCENT = new Color(0, 160, 100);
     private static final Color COLOR_13_FOOTER = new Color(240, 255, 248);
@@ -37,7 +31,6 @@ public class SimpsonDialog extends JDialog {
     private static final Color COLOR_38_GRID   = new Color(220, 190, 150);
     private static final Color COLOR_38_SEL    = new Color(255, 220, 170);
 
-    // Panels that need background repainting
     private JPanel inputPanel, btnPanel, summaryPanel;
     private JPanel mainContentPanel;
 
@@ -47,7 +40,6 @@ public class SimpsonDialog extends JDialog {
 
         buildUI(parent);
 
-        // Apply 1/3 theme by default
         applyTheme(true);
 
         setSize(950, 750);
@@ -59,20 +51,17 @@ public class SimpsonDialog extends JDialog {
         mainContentPanel = new JPanel(new BorderLayout(10, 10));
         add(mainContentPanel, BorderLayout.CENTER);
 
-        // ── NORTH: input panel ─────────────────────────────────────────
         inputPanel = new JPanel(new GridBagLayout());
         inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 15, 5, 15));
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(4, 6, 4, 6);
         c.anchor = GridBagConstraints.WEST;
 
-        // Row 0: Title
         c.gridx = 0; c.gridy = 0; c.gridwidth = 4;
         titleLabel = new JLabel("Simpson's 1/3 Rule Solver");
         titleLabel.setFont(new Font("Georgia", Font.BOLD, 18));
         inputPanel.add(titleLabel, c);
 
-        // Row 1: Radio buttons for rule selection
         c.gridy = 1; c.gridwidth = 4;
         JPanel radioPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         radioPanel.setOpaque(false);
@@ -97,13 +86,11 @@ public class SimpsonDialog extends JDialog {
         radioPanel.add(radio38);
         inputPanel.add(radioPanel, c);
 
-        // Row 2: Formula
         c.gridy = 2; c.gridwidth = 4;
         formulaLabel = new JLabel("Formula:  I = (h/3) · [f(x₀) + 4Σf(xᵢ)odd + 2Σf(xⱼ)even + f(xₙ)]");
         formulaLabel.setFont(new Font("Monospaced", Font.ITALIC, 11));
         inputPanel.add(formulaLabel, c);
 
-        // Row 3: f(x) input
         c.gridy = 3; c.gridwidth = 1; c.gridx = 0;
         inputPanel.add(makeLabel("f(x) ="), c);
         c.gridx = 1; c.gridwidth = 3;
@@ -111,40 +98,34 @@ public class SimpsonDialog extends JDialog {
         styleTextField(equationField, new Color(100, 180, 140));
         inputPanel.add(equationField, c);
 
-        // Row 4: Hint
         c.gridy = 4; c.gridx = 0; c.gridwidth = 4;
         JLabel hint = new JLabel("  Example: 0.2 + 5*x - 200*x^2 + 675*x^3 - 900*x^4 + 400*x^5");
         hint.setFont(new Font("Arial", Font.ITALIC, 10));
         hint.setForeground(Color.GRAY);
         inputPanel.add(hint, c);
 
-        // Row 5: a and b
         c.gridy = 5; c.gridwidth = 1;
         c.gridx = 0; inputPanel.add(makeLabel("Lower limit  a ="), c);
         c.gridx = 1; aField = new JTextField(8); styleTextField(aField, new Color(100, 180, 140)); inputPanel.add(aField, c);
         c.gridx = 2; inputPanel.add(makeLabel("Upper limit  b ="), c);
         c.gridx = 3; bField = new JTextField(8); styleTextField(bField, new Color(100, 180, 140)); inputPanel.add(bField, c);
 
-        // Row 6: n
         c.gridy = 6; c.gridx = 0; c.gridwidth = 1;
         inputPanel.add(makeLabel("Number of segments  n ="), c);
         c.gridx = 1; nField = new JTextField(8); styleTextField(nField, new Color(100, 180, 140)); inputPanel.add(nField, c);
 
-        // Row 7: n requirement note (dynamic)
         c.gridy = 7; c.gridx = 0; c.gridwidth = 4;
         nNoteLabel = new JLabel("  NOTE: n must be even for Simpson's 1/3 Rule.");
         nNoteLabel.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 10));
         nNoteLabel.setForeground(new Color(180, 0, 0));
         inputPanel.add(nNoteLabel, c);
 
-        // Row 8: Trig note
         c.gridy = 8;
         JLabel trigNote = new JLabel("  NOTE: Trig functions use RADIANS. You may use 'pi' or 'π' in expressions.");
         trigNote.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 10));
         trigNote.setForeground(new Color(180, 0, 0));
         inputPanel.add(trigNote, c);
 
-        // Row 9: Buttons
         c.gridy = 9; c.gridwidth = 4; c.gridx = 0;
         btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 12, 0));
         btnPanel.setOpaque(false);
@@ -156,7 +137,6 @@ public class SimpsonDialog extends JDialog {
 
         mainContentPanel.add(inputPanel, BorderLayout.NORTH);
 
-        // ── CENTER: table ──────────────────────────────────────────────
         String[] cols13 = {"", "x", "f(x)", "mod 2", "1/3 rule", "f(xi)"};
         tableModel = new SimpsonTable(cols13);
         resultTable = new JTable(tableModel);
@@ -188,7 +168,6 @@ public class SimpsonDialog extends JDialog {
 
         mainContentPanel.add(scrollPane, BorderLayout.CENTER);
 
-        // ── SOUTH: summary panel ───────────────────────────────────────
         summaryPanel = new JPanel(new GridBagLayout());
         summaryPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createMatteBorder(1, 0, 0, 0, COLOR_13_ACCENT),
@@ -231,15 +210,12 @@ public class SimpsonDialog extends JDialog {
 
         mainContentPanel.add(summaryPanel, BorderLayout.SOUTH);
 
-        // ── Listeners ──────────────────────────────────────────────────
         solveButton.addActionListener(e -> solveSimpson());
         clearButton.addActionListener(e -> clearAll());
 
         radio13.addActionListener(e -> applyTheme(true));
         radio38.addActionListener(e -> applyTheme(false));
     }
-
-    // ── Theme switching ───────────────────────────────────────────────────
 
     private void applyTheme(boolean is13) {
         Color headerColor = is13 ? COLOR_13_HEADER : COLOR_38_HEADER;
@@ -249,7 +225,6 @@ public class SimpsonDialog extends JDialog {
         Color gridColor   = is13 ? COLOR_13_GRID   : COLOR_38_GRID;
         Color selColor    = is13 ? COLOR_13_SEL    : COLOR_38_SEL;
 
-        // Update title and formula
         titleLabel.setText(is13 ? "Simpson's 1/3 Rule Solver" : "Simpson's 3/8 Rule Solver");
         titleLabel.setForeground(headerColor);
 
@@ -265,25 +240,21 @@ public class SimpsonDialog extends JDialog {
         integralKeyLabel.setText(is13 ? "I = (h/3) · Σf(xi) =" : "I = (3h/8) · Σf(xi) =");
         integralKeyLabel.setForeground(headerColor);
 
-        // Update table columns
         String[] cols = is13
                 ? new String[]{"", "x", "f(x)", "mod 2", "1/3 rule", "f(xi)"}
                 : new String[]{"", "x", "f(x)", "mod 3", "3/8 rule", "f(xi)"};
         tableModel.setColumns(cols);
         tableModel.clearTable();
 
-        // Update table colors
         resultTable.setGridColor(gridColor);
         resultTable.setSelectionBackground(selColor);
         resultTable.getTableHeader().setBackground(headerColor);
         resultTable.repaint();
 
-        // Update scroll pane border
         scrollPane.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(accentColor, 1), " Iteration Table ",
                 0, 0, new Font("Arial", Font.BOLD, 11), accentColor));
 
-        // Update backgrounds
         inputPanel.setBackground(bgColor);
         summaryPanel.setBackground(footerColor);
         summaryPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -292,10 +263,8 @@ public class SimpsonDialog extends JDialog {
         mainContentPanel.setBackground(bgColor);
         getContentPane().setBackground(bgColor);
 
-        // Update solve button color
         solveButton.setBackground(headerColor);
 
-        // Update text field borders
         Color borderColor = is13 ? new Color(100, 180, 140) : new Color(200, 150, 80);
         for (JTextField f : new JTextField[]{equationField, aField, bField, nField}) {
             f.setBorder(BorderFactory.createCompoundBorder(
@@ -311,7 +280,6 @@ public class SimpsonDialog extends JDialog {
         revalidate();
     }
 
-    // ── Core Computation ──────────────────────────────────────────────────
 
     private void solveSimpson() {
         if (radio13.isSelected()) {
@@ -410,8 +378,6 @@ public class SimpsonDialog extends JDialog {
             error("Calculation error: " + ex.getMessage());
         }
     }
-
-    // ── Helpers ───────────────────────────────────────────────────────────
 
     private void updateSummary(int n, double a, double b, double h, double sumFxi, double integral) {
         lblN.setText(String.valueOf(n));

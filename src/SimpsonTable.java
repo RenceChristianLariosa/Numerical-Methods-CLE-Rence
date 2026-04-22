@@ -4,8 +4,7 @@ import java.util.ArrayList;
 public class SimpsonTable extends AbstractTableModel {
     ArrayList<SimpsonIteration> rows;
     String[] columns;
-
-    // Pass column headers so same model works for 1/3 and 3/8
+    
     public SimpsonTable(String[] columns) {
         this.columns = columns;
         rows = new ArrayList<>();
