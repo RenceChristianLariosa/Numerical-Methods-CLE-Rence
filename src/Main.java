@@ -49,13 +49,15 @@ public class Main {
         frame.simpsonsRule.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                SimpsonDialog dialog = new SimpsonDialog(frame);
+                dialog.setVisible(true);
             }
         });
         frame.trapezoidalRule.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                TrapezoidDialog dialog = new TrapezoidDialog(frame);
+                dialog.setVisible(true);
             }
         });
     }
