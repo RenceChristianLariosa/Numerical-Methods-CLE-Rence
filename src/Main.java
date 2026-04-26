@@ -37,13 +37,15 @@ public class Main {
         frame.gaussJacobi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                GaussJacobiDialog dialog = new GaussJacobiDialog(frame);
+                dialog.setVisible(true);
             }
         });
         frame.gaussSeidel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                GaussSeidelDialog dialog = new GaussSeidelDialog(frame);
+                dialog.setVisible(true);
             }
         });
         frame.simpsonsRule.addActionListener(new ActionListener() {
